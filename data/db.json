@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "John",
+      "title": "informed-user",
+      "department": "sales",
+      " status": "active"
+    },
+    {
+      "id": "2",
+      "name": "Zel",
+      "title": "informed-user",
+      "department": "hr",
+      " status": "active"
+    },
+    {
+      "id": "3",
+      "name": "Phil",
+      "title": "informed-user",
+      "department": "area-manager",
+      "status": "active"
+    }
+  ]
+}
