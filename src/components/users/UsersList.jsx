@@ -1,12 +1,31 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import UserItem from "./UserItem";
-import { selectAllUsers } from "../userslice/usersSlice";
+import {
+  selectAllUsers,
+  fetchUsers,
+  getUserError,
+  getUserStatus,
+} from "../userslice/usersSlice";
 
 const UsersList = () => {
+  const dispatch = useDispatch();
   const userList = useSelector(selectAllUsers);
+  const userStatus = useSelector(getUserStatus);
+  const error = useSelector(getUserError);
+
+  useEffect(() => {
+    if (userStatus === "idle") {
+      dispatch(fetchUsers());
+    }
+  }, [userStatus, dispatch]);
+
   const renderUsers = userList.map((user) => {
-    return <UserItem user={user} key={user.id} />;
+    return (
+      <React.Fragment key={user.id}>
+        <UserItem user={user} />
+      </React.Fragment>
+    );
   });
 
   return (
@@ -18,7 +37,7 @@ const UsersList = () => {
         flexDirection: "column",
       }}
     >
-      <h2>Users</h2>
+      <h2>USERS</h2>
       {renderUsers}
     </section>
   );

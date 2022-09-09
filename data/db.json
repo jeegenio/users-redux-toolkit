@@ -1,25 +1,25 @@
 {
   "users": [
     {
-      "id": "1",
-      "name": "John",
-      "title": "informed-user",
-      "department": "sales",
-      " status": "active"
-    },
-    {
-      "id": "2",
-      "name": "Zel",
-      "title": "informed-user",
-      "department": "hr",
-      " status": "active"
-    },
-    {
-      "id": "3",
-      "name": "Phil",
+      "name": "Phils2",
       "title": "informed-user",
       "department": "area-manager",
-      "status": "active"
+      "user_status": "active",
+      "id": "334"
+    },
+    {
+      "name": "test",
+      "title": "test",
+      "department": "etst",
+      "user_status": "etst",
+      "id": "1bT5hxy"
+    },
+    {
+      "name": "test",
+      "title": "test",
+      "department": "est",
+      "user_status": "est",
+      "id": "xMZK6i-"
     }
   ]
 }

@@ -1,16 +1,17 @@
 import React from "react";
 import { Box, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { deleteUser } from "../userslice/usersSlice";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUserById, deleteUser } from "../userslice/usersSlice";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
+    rowGap: "8px",
     width: "full",
     justifyContent: "center",
-    flexDirection: "column",
   },
   valueContainer: {
     display: "flex",
@@ -23,37 +24,41 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.grey[600],
   },
 }));
-const UserItem = ({ user }) => {
-  const { name, title, department, user_status, id } = user || {};
+
+const SingleUserPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { userId } = useParams();
+  const user = useSelector((state) => selectUserById(state, userId));
+  if (!user) {
+    return (
+      <section>
+        <h2>Post not found!</h2>
+      </section>
+    );
+  }
+
+  const handleBack = () => {
+    navigate("/");
+  };
 
   const handleDeleteUser = () => {
     const { name, title, department, user_status, id } = user || {};
     dispatch(deleteUser({ name, title, department, user_status, id }));
     navigate("/");
   };
-
   return (
-    <Box className={classes.container} borderBottom={0}>
-      <Box
-        style={{
-          width: 500,
-          display: "flex",
-          marginBottom: 12,
-          border: 1,
-          borderColor: "blue",
-        }}
-        borderBottom={0}
-      >
-        <Box style={{ width: "50%", display: "flex", flexDirection: "column" }}>
+    <Box className={classes.container}>
+      <Box style={{ width: "25%", display: "flex" }}>
+        <Box style={{ width: "50%" }}>
           <Box className={classes.valueContainer}>
             <Typography className={classes.textValuesLabel} component="span">
               Name:
             </Typography>
             <Typography className={classes.textValuesValue} component="span">
-              {name}
+              {user.name}
             </Typography>
           </Box>
           <Box className={classes.valueContainer}>
@@ -61,7 +66,7 @@ const UserItem = ({ user }) => {
               Title:
             </Typography>
             <Typography className={classes.textValuesValue} component="span">
-              {title}
+              {user.title}
             </Typography>
           </Box>
           <Box className={classes.valueContainer}>
@@ -69,7 +74,7 @@ const UserItem = ({ user }) => {
               Department:
             </Typography>
             <Typography className={classes.textValuesValue} component="span">
-              {department}
+              {user.department}
             </Typography>
           </Box>
           <Box className={classes.valueContainer}>
@@ -77,27 +82,33 @@ const UserItem = ({ user }) => {
               Status:
             </Typography>
             <Typography className={classes.textValuesValue} component="span">
-              {user_status}
+              {user.user_status}
             </Typography>
           </Box>
         </Box>
         <Box
           style={{
+            width: "50%",
             display: "flex",
             flexDirection: "column",
             alignItems: "end",
-            width: "50%",
-            rowGap: 8,
+            rowGap: "8px",
           }}
         >
-          <Button variant="outlined" color="primary">
-            <Link style={{ textDecoration: "none" }} to={`user/${id}`}>
-              VIEW USER
+          <Button color="primary" variant="outlined">
+            <Link
+              style={{ textDecoration: "none" }}
+              to={`/user/edit/${user.id}`}
+            >
+              Edit
             </Link>
           </Button>
-
-          <Button variant="outlined" color="primary" onClick={handleDeleteUser}>
+          <Button color="primary" variant="outlined" onClick={handleDeleteUser}>
             Delete
+          </Button>
+          <Button color="primary" onClick={handleBack}>
+            <ArrowBackIcon color="primary" />
+            Back
           </Button>
         </Box>
       </Box>
@@ -105,4 +116,4 @@ const UserItem = ({ user }) => {
   );
 };
 
-export default UserItem;
+export default SingleUserPage;
