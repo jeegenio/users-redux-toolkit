@@ -5,14 +5,21 @@ import { store } from "./app/store";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
+import { fetchUsers } from "./components/userslice/usersSlice";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+store.dispatch(fetchUsers());
 const container = document.getElementById("root");
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <Routes>
+          <Route path="/*" element={<App />} />
+        </Routes>
+      </Router>
     </Provider>
   </React.StrictMode>
 );

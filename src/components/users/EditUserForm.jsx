@@ -1,14 +1,25 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { addNewUser } from "../userslice/usersSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectAllUsers,
+  selectUserById,
+  updateUser,
+} from "../userslice/usersSlice";
+import { useParams, useNavigate } from "react-router-dom";
 
-const AddUserForm = () => {
-  const [name, setName] = useState("");
-  const [title, setTitle] = useState("");
-  const [department, setDepartment] = useState("");
-  const [user_status, setStatus] = useState("");
+const EditUserForm = () => {
+  const { userId } = useParams();
   const navigate = useNavigate();
+
+  const user = useSelector((state) => selectUserById(state, userId));
+  const users = useSelector(selectAllUsers);
+
+  const [name, setName] = useState(user?.name);
+  const [title, setTitle] = useState(user?.title);
+  const [department, setDepartment] = useState(user?.department);
+  const [user_status, setStatus] = useState(user?.user_status);
+  const [requestStatus, setRequestStatus] = useState("idle");
+
   const onNameChanged = (e) => setName(e.target.value);
   const onTitleChanged = (e) => setTitle(e.target.value);
   const onDepartmentChanged = (e) => setDepartment(e.target.value);
@@ -19,13 +30,16 @@ const AddUserForm = () => {
 
   const onSaveUserClicked = () => {
     if (canSave) {
+      const { id } = user || {};
       try {
-        dispatch(addNewUser({ name, title, department, user_status })).unwrap();
+        dispatch(
+          updateUser({ name, title, department, user_status, id })
+        ).unwrap();
         setName("");
         setTitle("");
         setDepartment("");
         setStatus("");
-        navigate("/");
+        navigate(`/user/${userId}`);
       } catch (e) {
         console.log("failed saving user");
       }
@@ -40,7 +54,7 @@ const AddUserForm = () => {
         alignItems: "center",
       }}
     >
-      <h2>Add a New User</h2>
+      <h2>Edit User</h2>
       <form
         style={{
           display: "flex",
@@ -88,4 +102,4 @@ const AddUserForm = () => {
   );
 };
 
-export default AddUserForm;
+export default EditUserForm;
