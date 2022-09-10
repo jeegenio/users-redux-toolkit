@@ -17,7 +17,7 @@ const EditUserForm = () => {
   const [name, setName] = useState(user?.name);
   const [title, setTitle] = useState(user?.title);
   const [department, setDepartment] = useState(user?.department);
-  const [user_status, setStatus] = useState(user?.user_status);
+  const [status, setStatus] = useState(user?.status);
   const [requestStatus, setRequestStatus] = useState("idle");
 
   const onNameChanged = (e) => setName(e.target.value);
@@ -26,15 +26,13 @@ const EditUserForm = () => {
   const onStatusChanged = (e) => setStatus(e.target.value);
 
   const dispatch = useDispatch();
-  const canSave = [name, title, department, user_status].every(Boolean);
+  const canSave = [name, title, department, status].every(Boolean);
 
   const onSaveUserClicked = () => {
     if (canSave) {
       const { id } = user || {};
       try {
-        dispatch(
-          updateUser({ name, title, department, user_status, id })
-        ).unwrap();
+        dispatch(updateUser({ name, title, department, status, id })).unwrap();
         setName("");
         setTitle("");
         setDepartment("");
@@ -91,7 +89,7 @@ const EditUserForm = () => {
           type="text"
           id="postStatus"
           name="postStatus"
-          value={user_status}
+          value={status ? "Active" : "Inactive"}
           onChange={onStatusChanged}
         />
         <button type="button" onClick={onSaveUserClicked} disabled={!canSave}>

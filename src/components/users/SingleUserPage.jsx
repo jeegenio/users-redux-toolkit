@@ -45,8 +45,8 @@ const SingleUserPage = () => {
   };
 
   const handleDeleteUser = () => {
-    const { name, title, department, user_status, id } = user || {};
-    dispatch(deleteUser({ name, title, department, user_status, id }));
+    const { name, title, department, status, id } = user || {};
+    dispatch(deleteUser({ name, title, department, status, id }));
     navigate("/");
   };
   return (
@@ -82,7 +82,7 @@ const SingleUserPage = () => {
               Status:
             </Typography>
             <Typography className={classes.textValuesValue} component="span">
-              {user.user_status}
+              {user.status ? "Active" : "Inactive"}
             </Typography>
           </Box>
         </Box>

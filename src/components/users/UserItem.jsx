@@ -24,17 +24,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const UserItem = ({ user }) => {
-  const { name, title, department, user_status, id } = user || {};
+  const { name, title, department, status, id } = user || {};
   const classes = useStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleDeleteUser = () => {
-    const { name, title, department, user_status, id } = user || {};
-    dispatch(deleteUser({ name, title, department, user_status, id }));
+    const { name, title, department, status, id } = user || {};
+    dispatch(deleteUser({ name, title, department, status, id }));
     navigate("/");
   };
-
   return (
     <Box className={classes.container} borderBottom={0}>
       <Box
@@ -77,7 +76,7 @@ const UserItem = ({ user }) => {
               Status:
             </Typography>
             <Typography className={classes.textValuesValue} component="span">
-              {user_status}
+              {status ? "Active" : "Inactive"}
             </Typography>
           </Box>
         </Box>

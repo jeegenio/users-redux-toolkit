@@ -1,25 +1,32 @@
 {
   "users": [
     {
-      "name": "Phils2",
-      "title": "informed-user",
-      "department": "area-manager",
-      "user_status": "active",
-      "id": "334"
-    },
-    {
-      "name": "test",
-      "title": "test",
-      "department": "etst",
-      "user_status": "etst",
-      "id": "1bT5hxy"
-    },
-    {
       "name": "test",
       "title": "test",
       "department": "est",
-      "user_status": "est",
-      "id": "xMZK6i-"
+      "status": false,
+      "id": "fPhmXHB"
+    },
+    {
+      "name": "test",
+      "title": "set",
+      "department": "sert",
+      "status": true,
+      "id": "hvw_y6F"
+    },
+    {
+      "name": "test2",
+      "title": "test2",
+      "department": "hr",
+      "status": true,
+      "id": "-6Bn6qz"
+    },
+    {
+      "name": "Ryan",
+      "title": "manager",
+      "department": "hr",
+      "status": true,
+      "id": "bvkRVh0"
     }
   ]
 }
