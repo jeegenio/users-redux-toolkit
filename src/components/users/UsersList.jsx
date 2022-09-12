@@ -7,12 +7,17 @@ import {
   getUserError,
   getUserStatus,
 } from "../userslice/usersSlice";
+import { getSnackbarDetails } from "../notificationSlice/snackbarSlice";
 
 const UsersList = () => {
   const dispatch = useDispatch();
   const userList = useSelector(selectAllUsers);
   const userStatus = useSelector(getUserStatus);
   const error = useSelector(getUserError);
+  const snackbarDetails = useSelector(getSnackbarDetails);
+
+  console.log(snackbarDetails);
+  console.log(userStatus);
 
   useEffect(() => {
     if (userStatus === "idle") {

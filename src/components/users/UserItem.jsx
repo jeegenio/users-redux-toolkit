@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteUser } from "../userslice/usersSlice";
+import { setSnackbar } from "../notificationSlice/snackbarSlice";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,9 +30,14 @@ const UserItem = ({ user }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const snackbarOpen = true;
+  const snackbarType = "success";
+  const snackbarMessage = "Successfully deleted user";
+
   const handleDeleteUser = () => {
     const { name, title, department, status, id } = user || {};
     dispatch(deleteUser({ name, title, department, status, id }));
+    dispatch(setSnackbar({ snackbarOpen, snackbarType, snackbarMessage }));
     navigate("/");
   };
   return (

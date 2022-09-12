@@ -1,29 +1,37 @@
 import React from "react";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addNewUser } from "../userslice/usersSlice";
 import { FIELDS } from "./contants";
 import InputField from "./InputField";
 import { Box, Button } from "@material-ui/core";
 import * as yup from "yup";
-
+import {
+  getSnackbarDetails,
+  setSnackbar,
+} from "../notificationSlice/snackbarSlice";
 export const validationSchema = yup.object({
   name: yup.string().required("Name is required"),
   title: yup.string().required("Title is required"),
   department: yup.string().required("Department is required"),
   status: yup.bool().required("Status is required"),
 });
-
 const AddUserForm = () => {
-  const navigate = useNavigate();
+  const snackbarDetails = useSelector(getSnackbarDetails);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const snackbarOpen = true;
+  const snackbarType = "success";
+  const snackbarMessage = "Successfully added a user";
 
   const handleSubmit = (values) => {
     const { name, title, department, status } = values || {};
     try {
       dispatch(addNewUser({ name, title, department, status })).unwrap();
+      dispatch(setSnackbar({ snackbarOpen, snackbarType, snackbarMessage }));
       navigate("/");
     } catch (e) {
       console.log("failed saving user");
@@ -39,7 +47,6 @@ const AddUserForm = () => {
     validationSchema: validationSchema,
     onSubmit: handleSubmit,
   });
-  console.log(formik.errors);
   const renderInput = ({ name, label, type, id, formik }) => {
     return <InputField name={name} label={label} type={type} formik={formik} />;
   };
@@ -70,14 +77,22 @@ const AddUserForm = () => {
                 label: x.label,
                 type: x.type,
                 id: x.id,
-                status: x.user_status,
+                status: x.status,
                 formik,
               })
             )}
           </div>
-          <Button variant="outlined" color="primary" type="submit">
-            Save User
-          </Button>
+          <Box
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Button variant="contained" color="primary" type="submit">
+              Save User
+            </Button>
+          </Box>
         </Box>
       </form>
     </section>

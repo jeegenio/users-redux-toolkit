@@ -23,10 +23,12 @@ const InputField = ({ name, label, type, id, formik }) => {
           value={formik.values[name]}
           onChange={formik.handleChange}
           error={formik.touched[name] && Boolean(formik.errors[name])}
+          className={formik.touched[name] && Boolean(formik.errors[name])}
         >
           <MenuItem value={true}>Active</MenuItem>
           <MenuItem value={false}>Inactive</MenuItem>
         </Select>
+        <Box style={{ marginTop: 8, color: "red" }}>{formik.errors[name]}</Box>
       </FormControl>
     );
   }
@@ -35,6 +37,7 @@ const InputField = ({ name, label, type, id, formik }) => {
       <TextField
         name={name}
         error={formik.touched[name] && Boolean(formik.errors[name])}
+        className={formik.touched[name] && Boolean(formik.errors[name])}
         label={label}
         onChange={formik.handleChange}
         value={formik.values[name]}
@@ -45,6 +48,7 @@ const InputField = ({ name, label, type, id, formik }) => {
         }}
         fullWidth
       />
+      <Box style={{ marginTop: 8, color: "red" }}>{formik.errors[name]}</Box>
     </Box>
   );
 };
