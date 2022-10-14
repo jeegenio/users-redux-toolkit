@@ -47,8 +47,14 @@ const AddUserForm = () => {
     validationSchema: validationSchema,
     onSubmit: handleSubmit,
   });
+
+
   const renderInput = ({ name, label, type, id, formik }) => {
-    return <InputField name={name} label={label} type={type} formik={formik} />;
+    return (
+      <React.Fragment key={name}>
+        <InputField name={name} label={label} type={type} formik={formik} />
+      </React.Fragment>
+    );
   };
   return (
     <section

@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const USERS_URL = "http://localhost:8000/users";
+const ADDING_USERS_URL = "http://localhost:8000/users";
 
 const initialState = {
   users: [],
@@ -25,9 +26,11 @@ export const addNewUser = createAsyncThunk(
   "users/addNewUser",
   async (initialState) => {
     try {
-      const { data } = await axios.post(USERS_URL, initialState);
-      return data;
+      const res = await axios.post(ADDING_USERS_URL, initialState);
+      console.log(res);
+      return res.data;
     } catch (e) {
+      console.log("failed adding user");
       return e.message;
     }
   }
