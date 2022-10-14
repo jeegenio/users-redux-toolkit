@@ -7,11 +7,13 @@ import { Routes, Route } from "react-router-dom";
 import UsersList from "./components/users/UsersList";
 import AddUserForm from "./components/form/AddUserForm";
 import Navbar from "./components/nav/Navbar";
+import SnackbarNotifcations from "./components/notificationSlice/SnackbarNotifcations";
 
 function App() {
   return (
     <div>
       <Navbar />
+      <SnackbarNotifcations />
       <Routes>
         <Route path="/" element={<MainContent />} />
         <Route index element={<UsersList />} />

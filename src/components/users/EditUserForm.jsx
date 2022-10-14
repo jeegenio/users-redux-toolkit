@@ -6,6 +6,17 @@ import {
   updateUser,
 } from "../userslice/usersSlice";
 import { useParams, useNavigate } from "react-router-dom";
+import {
+  Box,
+  Button,
+  InputInputLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { setSnackbar } from "../notificationSlice/snackbarSlice";
 
 const EditUserForm = () => {
   const { userId } = useParams();
@@ -17,7 +28,7 @@ const EditUserForm = () => {
   const [name, setName] = useState(user?.name);
   const [title, setTitle] = useState(user?.title);
   const [department, setDepartment] = useState(user?.department);
-  const [user_status, setStatus] = useState(user?.user_status);
+  const [status, setStatus] = useState(user?.status);
   const [requestStatus, setRequestStatus] = useState("idle");
 
   const onNameChanged = (e) => setName(e.target.value);
@@ -26,19 +37,18 @@ const EditUserForm = () => {
   const onStatusChanged = (e) => setStatus(e.target.value);
 
   const dispatch = useDispatch();
-  const canSave = [name, title, department, user_status].every(Boolean);
+  const canSave = [name, title, department].every(Boolean);
+
+  const snackbarOpen = true;
+  const snackbarType = "success";
+  const snackbarMessage = "Successfully updated user";
 
   const onSaveUserClicked = () => {
     if (canSave) {
       const { id } = user || {};
       try {
-        dispatch(
-          updateUser({ name, title, department, user_status, id })
-        ).unwrap();
-        setName("");
-        setTitle("");
-        setDepartment("");
-        setStatus("");
+        dispatch(updateUser({ name, title, department, status, id })).unwrap();
+        dispatch(setSnackbar({ snackbarOpen, snackbarType, snackbarMessage }));
         navigate(`/user/${userId}`);
       } catch (e) {
         console.log("failed saving user");
@@ -46,6 +56,9 @@ const EditUserForm = () => {
     }
   };
 
+  const handleBack = () => {
+    navigate(`/user/${userId}`);
+  };
   return (
     <section
       style={{
@@ -60,43 +73,71 @@ const EditUserForm = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          rowGap: 8,
+          width: 400,
         }}
       >
-        <label htmlFor="postUser">Name:</label>
-        <input
+        <InputLabel htmlFor="postUser">Name:</InputLabel>
+        <TextField
           type="text"
           id="postName"
           name="postName"
           value={name}
           onChange={onNameChanged}
+          fullWidth
         />
-        <label htmlFor="postTitle">Title:</label>
-        <input
+        <InputLabel htmlFor="postTitle">Title:</InputLabel>
+        <TextField
           type="text"
           id="postTitle"
           name="postTitle"
           value={title}
           onChange={onTitleChanged}
+          fullWidth
         />
-        <label htmlFor="postDepartment">Department:</label>
-        <input
+        <InputLabel htmlFor="postDepartment">Department:</InputLabel>
+        <TextField
           type="text"
           id="postDepartment"
           name="postDepartment"
           value={department}
           onChange={onDepartmentChanged}
+          fullWidth
         />
-        <label htmlFor="postStatus">Status:</label>
-        <input
+        <InputLabel htmlFor="postStatus">Status:</InputLabel>
+        <Select
           type="text"
           id="postStatus"
           name="postStatus"
-          value={user_status}
+          value={status}
           onChange={onStatusChanged}
-        />
-        <button type="button" onClick={onSaveUserClicked} disabled={!canSave}>
-          Save User
-        </button>
+          fullWidth
+        >
+          <MenuItem value={true}>Active</MenuItem>
+          <MenuItem value={false}>Inactive</MenuItem>
+        </Select>
+        <Box
+          style={{
+            marginTop: 16,
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Button
+            type="button"
+            variant="contained"
+            color="primary"
+            onClick={onSaveUserClicked}
+            disabled={!canSave}
+          >
+            Save User
+          </Button>
+          <Button color="primary" onClick={handleBack}>
+            <ArrowBackIcon color="primary" />
+            Back
+          </Button>
+        </Box>
       </form>
     </section>
   );

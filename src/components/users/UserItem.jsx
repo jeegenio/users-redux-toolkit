@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteUser } from "../userslice/usersSlice";
+import { setSnackbar } from "../notificationSlice/snackbarSlice";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,17 +25,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const UserItem = ({ user }) => {
-  const { name, title, department, user_status, id } = user || {};
+  const { name, title, department, status, id } = user || {};
   const classes = useStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const snackbarOpen = true;
+  const snackbarType = "success";
+  const snackbarMessage = "Successfully deleted user";
+
   const handleDeleteUser = () => {
-    const { name, title, department, user_status, id } = user || {};
-    dispatch(deleteUser({ name, title, department, user_status, id }));
+    const { name, title, department, status, id } = user || {};
+    dispatch(deleteUser({ name, title, department, status, id }));
+    dispatch(setSnackbar({ snackbarOpen, snackbarType, snackbarMessage }));
     navigate("/");
   };
-
   return (
     <Box className={classes.container} borderBottom={0}>
       <Box
@@ -77,7 +82,7 @@ const UserItem = ({ user }) => {
               Status:
             </Typography>
             <Typography className={classes.textValuesValue} component="span">
-              {user_status}
+              {status ? "Active" : "Inactive"}
             </Typography>
           </Box>
         </Box>

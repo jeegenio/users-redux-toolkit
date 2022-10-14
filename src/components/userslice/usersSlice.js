@@ -1,7 +1,8 @@
-import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const USERS_URL = "http://localhost:8000/users";
+const ADDING_USERS_URL = "http://localhost:8000/users";
 
 const initialState = {
   users: [],
@@ -25,9 +26,11 @@ export const addNewUser = createAsyncThunk(
   "users/addNewUser",
   async (initialState) => {
     try {
-      const { data } = await axios.post(USERS_URL, initialState);
-      return data;
+      const res = await axios.post(ADDING_USERS_URL, initialState);
+      console.log(res);
+      return res.data;
     } catch (e) {
+      console.log("failed adding user");
       return e.message;
     }
   }
@@ -67,44 +70,44 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     addUser: {
-      reducer(state, action) {
-        state.users.push(action.payload);
-      },
-      prepare(name, title, department, user_status) {
-        return {
-          payload: {
-            id: nanoid(),
-            name,
-            title,
-            department,
-            user_status,
-          },
-        };
-      },
+      // reducer(state, action) {
+      //   state.users.push(action.payload);
+      // },
+      // prepare(name, title, department, status) {
+      //   return {
+      //     payload: {
+      //       id: nanoid(),
+      //       name,
+      //       title,
+      //       department,
+      //       status,
+      //     },
+      //   };
+      // },
     },
   },
   extraReducers(builder) {
     builder
       .addCase(fetchUsers.pending, (state) => {
-        state.fetchStatus = "pending1";
+        state.status = "pending";
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.fetchStatus = "succeeded1";
+        state.status = "succeeded";
         state.users.push(...action.payload);
       })
       .addCase(fetchUsers.rejected, (state, action) => {
-        state.fetchStatus = "failed1";
+        state.status = "failed";
         state.error = action.error.message;
       })
       .addCase(addNewUser.pending, (state) => {
-        state.createStatus = "loading2";
+        state.status = "loading";
       })
       .addCase(addNewUser.fulfilled, (state, action) => {
-        state.createStatus = "succeeded2";
+        state.status = "succeeded";
         state.users.push(action.payload);
       })
       .addCase(addNewUser.rejected, (state, action) => {
-        state.createStatus = "failed2";
+        state.status = "failed";
         state.error = action.error.message;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
@@ -116,6 +119,7 @@ const userSlice = createSlice({
         const { id } = action.payload;
         const users = state.users.filter((user) => user.id !== id);
         state.users = [...users, action.payload];
+        state.status = "succeeded";
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         if (!action.payload?.id) {
@@ -134,8 +138,7 @@ export const getUserStatus = (state) => state.users.status;
 export const getUserError = (state) => state.users.error;
 
 export const selectUserById = (state, userId) =>
-  state.users.users.find((user) => user.id === userId);
+  state.users.users.find((user) => user.id === Number(userId));
 
-export const { addUser } = userSlice.actions;
-
+// export const { addUser } = userSlice.actions;
 export default userSlice.reducer;

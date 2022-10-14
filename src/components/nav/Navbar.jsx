@@ -10,7 +10,6 @@ const Navbar = () => {
         display: "flex",
         alignItems: "end",
         justifyContent: "center",
-        backgroundColor: "grey",
         marginBottom: 16,
       }}
     >
@@ -19,20 +18,18 @@ const Navbar = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "grey",
         }}
       >
         <Box>
-          <GroupIcon style={{ fontSize: 150, color: "primary" }} />
+          <GroupIcon style={{ fontSize: 150, color: "blue" }} />
         </Box>
-        <h1 style={{ color: "white" }}>REDUX TOOLKIT</h1>
+        <h1 style={{ color: "black" }}>REDUX TOOLKIT</h1>
       </Box>
-      <Box style={{ display: "flex", color: "white", columnGap: 14 }}>
+      <Box style={{ display: "flex", color: "primary", columnGap: 14 }}>
         <Link
           style={{
-            textDecoration: "none",
             fontSize: 20,
-            color: "white",
+            color: "black",
           }}
           to="/"
         >
@@ -40,9 +37,8 @@ const Navbar = () => {
         </Link>
         <Link
           style={{
-            textDecoration: "none",
             fontSize: 20,
-            color: "white",
+            color: "black",
           }}
           to="/user"
         >

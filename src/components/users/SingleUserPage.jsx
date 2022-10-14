@@ -3,8 +3,14 @@ import { Box, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { selectUserById, deleteUser } from "../userslice/usersSlice";
+import {
+  selectUserById,
+  deleteUser,
+  selectAllUsers,
+} from "../userslice/usersSlice";
+
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { setSnackbar } from "../notificationSlice/snackbarSlice";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -12,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     rowGap: "8px",
     width: "full",
     justifyContent: "center",
+    paddingTop: 16,
   },
   valueContainer: {
     display: "flex",
@@ -35,7 +42,7 @@ const SingleUserPage = () => {
   if (!user) {
     return (
       <section>
-        <h2>Post not found!</h2>
+        <h2>User not found!</h2>
       </section>
     );
   }
@@ -44,9 +51,15 @@ const SingleUserPage = () => {
     navigate("/");
   };
 
+  const snackbarOpen = true;
+  const snackbarType = "success";
+  const snackbarMessage = "Successfully deleted user";
+
   const handleDeleteUser = () => {
-    const { name, title, department, user_status, id } = user || {};
-    dispatch(deleteUser({ name, title, department, user_status, id }));
+    const { name, title, department, status, id } = user || {};
+    dispatch(deleteUser({ name, title, department, status, id }));
+    dispatch(setSnackbar({ snackbarOpen, snackbarType, snackbarMessage }));
+
     navigate("/");
   };
   return (
@@ -82,7 +95,7 @@ const SingleUserPage = () => {
               Status:
             </Typography>
             <Typography className={classes.textValuesValue} component="span">
-              {user.user_status}
+              {user.status ? "Active" : "Inactive"}
             </Typography>
           </Box>
         </Box>

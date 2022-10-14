@@ -1,25 +1,32 @@
 {
   "users": [
     {
-      "name": "Phils2",
-      "title": "informed-user",
-      "department": "area-manager",
-      "user_status": "active",
-      "id": "334"
+      "name": "test1",
+      "title": "test1",
+      "department": "test1",
+      "status": true,
+      "id": 4
     },
     {
       "name": "test",
       "title": "test",
-      "department": "etst",
-      "user_status": "etst",
-      "id": "1bT5hxy"
+      "department": "tes",
+      "status": true,
+      "id": 5
     },
     {
       "name": "test",
       "title": "test",
-      "department": "est",
-      "user_status": "est",
-      "id": "xMZK6i-"
+      "department": "test",
+      "status": false,
+      "id": 6
+    },
+    {
+      "name": "test",
+      "title": "test",
+      "department": "test",
+      "status": true,
+      "id": 7
     }
   ]
 }
